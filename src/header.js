@@ -1,13 +1,29 @@
 import React from 'react';
 
-const Header = ({ title }) => {
+const Encabezado = () => {
   return (
-    <header className="bg-primary text-white p-3">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <h1 className="display-4">{title}</h1>
+        <a className="navbar-brand" href="#">Mi Restaurante</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="#">Inicio</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Menú</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Contacto</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
-export default Header;
+export default Encabezado;
