@@ -1,24 +1,94 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { db } from './firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 function App() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [guests, setGuests] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Agregar el documento a la colección 'reservations' en Firebase Firestore
+      await addDoc(collection(db, 'reservations'), { name, email, date, time, guests });
+      alert('Reserva realizada con éxito');
+      // Limpiar los campos después de guardar la reserva
+      setName('');
+      setEmail('');
+      setDate('');
+      setTime('');
+      setGuests('');
+    } catch (error) {
+      console.error('Error al realizar la reserva: ', error);
+      alert('Error al realizar la reserva, por favor inténtalo de nuevo');
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section id="reserva" className="py-5">
+      <div className="container">
+        <h2 className="text-center mb-5">Reserva una mesa</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              placeholder="Nombre"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Correo electrónico</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="date">Fecha</label>
+            <input
+              type="date"
+              className="form-control"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="time">Hora</label>
+            <input
+              type="time"
+              className="form-control"
+              id="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="guests">Número de Invitados</label>
+            <input
+              type="number"
+              className="form-control"
+              id="guests"
+              placeholder="Número de Invitados"
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </section>
   );
 }
 
