@@ -7,7 +7,9 @@ body {
   header h1 {
     margin: 0;
   }
-  
+  h1 {
+    color: black;
+  }
 
   #reserva {
     background-color: #5a2a2a;
