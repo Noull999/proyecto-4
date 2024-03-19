@@ -1,94 +1,33 @@
-import React, { useState } from 'react';
-import { db } from './firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import MainPage from './components/MainPage';
+import ReservationPage from './components/ReservationPage';
 
 function App() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [guests, setGuests] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Agregar el documento a la colección 'reservations' en Firebase Firestore
-      await addDoc(collection(db, 'reservations'), { name, email, date, time, guests });
-      alert('Reserva realizada con éxito');
-      // Limpiar los campos después de guardar la reserva
-      setName('');
-      setEmail('');
-      setDate('');
-      setTime('');
-      setGuests('');
-    } catch (error) {
-      console.error('Error al realizar la reserva: ', error);
-      alert('Error al realizar la reserva, por favor inténtalo de nuevo');
-    }
-  };
-
   return (
-    <section id="reserva" className="py-5">
-      <div className="container">
-        <h2 className="text-center mb-5">Reserva una mesa</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              placeholder="Nombre"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="date">Fecha</label>
-            <input
-              type="date"
-              className="form-control"
-              id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="time">Hora</label>
-            <input
-              type="time"
-              className="form-control"
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="guests">Número de Invitados</label>
-            <input
-              type="number"
-              className="form-control"
-              id="guests"
-              placeholder="Número de Invitados"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">Enviar</button>
-        </form>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            <li>
+              <Link to="/reserva">Reserva</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Switch>
+          <Route path="/reserva">
+            <ReservationPage />
+          </Route>
+          <Route path="/">
+            <MainPage />
+          </Route>
+        </Switch>
       </div>
-    </section>
+    </Router>
   );
 }
 
